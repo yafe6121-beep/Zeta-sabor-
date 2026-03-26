@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zeta Sabor | Pedidos 🥟</title>
+    <style>
+        :root {
+            --azul-krox: #00e5ff;
+            --amarillo-zeta: #ffcc00;
+            --fondo-oscuro: #0a0e14;
+            --gris-suave: #1e252e;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--fondo-oscuro);
+            color: white;
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .card {
+            max-width: 450px;
+            width: 100%;
+            background: var(--gris-suave);
+            padding: 25px;
+            border-radius: 20px;
+            border: 2px solid var(--azul-krox);
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.2);
+        }
+
+        h1 {
+            color: var(--amarillo-zeta);
+            text-align: center;
+            margin-bottom: 5px;
+            font-size: 28px;
+            text-transform: uppercase;
+        }
+
+        .pago-movil {
+            background: rgba(255, 204, 0, 0.1);
+            border: 1px dashed var(--amarillo-zeta);
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .sabor-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #333;
+        }
+
+        input[type="number"] {
+            width: 50px;
+            background: #000;
+            border: 1px solid var(--azul-krox);
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            padding: 8px;
+            font-weight: bold;
+        }
+
+        .input-cliente {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #000;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .btn-enviar {
+            background-color: #25d366;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 18px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+
+        .btn-enviar:active { transform: scale(0.95); }
+
+        label { color: var(--azul-krox); font-weight: bold; font-size: 14px; margin-top: 10px; display: block; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>🥟 ZETA SABOR 🥟</h1>
+    <p style="text-align: center; font-size: 14px; color: #aaa; margin-top: -5px;">Pastelitos de Masa Fácil</p>
+
+    <div class="pago-movil">
+        <center><strong>💰 DATOS PAGO MÓVIL:</strong></center>
+        <b>Banco:</b> Mercantil (0105)<br>
+        <b>Cédula:</b> 13.287.724<br>
+        <b>Teléfono:</b> 04242768311
+    </div>
+
+    <div id="lista-sabores">
+        <div class="sabor-item">
+            <span>Salchicha Solo</span>
+            <input type="number" id="s_salchicha" value="0" min="0">
+        </div>
+        <div class="sabor-item">
+            <span>Tocineta, Maíz y Queso</span>
+            <input type="number" id="s_mixto" value="0" min="0">
+        </div>
+        <div class="sabor-item">
+            <span>Queso Solo</span>
+            <input type="number" id="s_queso" value="0" min="0">
+        </div>
+        <div class="sabor-item">
+            <span>Carne Molida</span>
+            <input type="number" id="s_molida" value="0" min="0">
+        </div>
+        <div class="sabor-item">
+            <span>Carne Mechada</span>
+            <input type="number" id="s_mechada" value="0" min="0">
+        </div>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <label>¿Quién retira el pedido?</label>
+        <input type="text" id="nombre" class="input-cliente" placeholder="Tu nombre">
+        
+        <label>Nota / Comentario (Opcional):</label>
+        <textarea id="nota" class="input-cliente" rows="2" placeholder="Ej: Pagaré en divisas..."></textarea>
+    </div>
+
+    <button class="btn-enviar" onclick="enviarPedido()">🚀 PEDIR POR WHATSAPP</button>
+</div>
+
+<script>
+    function enviarPedido() {
+        const tel = "584142667666";
+        const nombre = document.getElementById('nombre').value;
+        const nota = document.getElementById('nota').value;
+        
+        const s0 = document.getElementById('s_salchicha').value;
+        const s1 = document.getElementById('s_mixto').value;
+        const s2 = document.getElementById('s_queso').value;
+        const s3 = document.getElementById('s_molida').value;
+        const s4 = document.getElementById('s_mechada').value;
+
+        if (!nombre.trim()) {
+            alert("Víctor dice: ¡Hey! Pon tu nombre.");
+            return;
+        }
+
+        if (s0==0 && s1==0 && s2==0 && s3==0 && s4==0) {
+            alert("Selecciona al menos un pastelito.");
+            return;
+        }
+
+        let msg = `*ZETA SABOR - NUEVO PEDIDO* 🥟\n\n`;
+        msg += `*Cliente:* ${nombre}\n`;
+        if(nota.trim()) msg += `*Nota:* ${nota}\n\n`;
+        msg += `--- *DETALLE* ---\n`;
+        
+        if(s0 > 0) msg += `- Salchicha: ${s0}\n`;
+        if(s1 > 0) msg += `- Tocineta/Maíz/Queso: ${s1}\n`;
+        if(s2 > 0) msg += `- Queso Solo: ${s2}\n`;
+        if(s3 > 0) msg += `- Carne Molida: ${s3}\n`;
+        if(s4 > 0) msg += `- Carne Mechada: ${s4}\n`;
+
+        msg += `\n*¡Listo para retirar!* ⚡`;
+
+        const urlFinal = `https://api.whatsapp.com/send?phone=${tel}&text=${encodeURIComponent(msg)}`;
+        window.location.href = urlFinal;
+    }
+</script>
+
+</body>
+</html>
